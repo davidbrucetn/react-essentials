@@ -1,4 +1,15 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import { Routes, Route } from "react-router-dom";
+import {
+  Home,
+  About,
+  Events,
+  Contact,
+  Services,
+  CompanyHistory,
+  Location,
+  Whoops404
+} from "./pages";
 
 // import restaurant from "./restaurant.jpg";
 import './App.css';
@@ -123,6 +134,20 @@ function App({ login }) {
     //   <h1>Hello React Testing Library</h1>
     // </div>
     <div key="App-Div">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} >
+          <Route path="services" element={<Services />} />
+          <Route path="history" element={<CompanyHistory />} />
+          <Route path="location" element={<Location />} />
+
+        </Route>
+        <Route path="/events" element={<Events />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<Whoops404 />} />
+      </Routes>
+
+      <hr />
       <div key="App-Github-Div">
         <h1 style={{ color: 'teal' }}>GitHub API</h1>
         <GithubUser />
@@ -144,6 +169,8 @@ function App({ login }) {
           onChange={toggle} />
         {checked ? "Checked" : "Not checked"}
       </div>
+      <hr />
+
 
 
 
