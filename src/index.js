@@ -16,7 +16,7 @@ ReactDOM.render(
   // element, properties, ...children
   // React.createElement("h1", { style: { color: "blue" } }, "Hey, everyone!")
   <>
-    <App authorized={true} />
+    <App authorized={true} login="davidbrucetn" />
     {/* <AppTwo /> */}
   </>,
   document.getElementById('root')
