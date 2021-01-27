@@ -61,7 +61,7 @@ import './App.css';
 // }
 
 
-function App() {
+function App({ login }) {
   const [emotion, setEmotion] = useState("happy");
   const [secondary, setSecondary] = useState("tired");
 
@@ -70,6 +70,8 @@ function App() {
     (checked) => !checked,
     false
   );
+
+  const [data, setData] = useState(null);
 
 
   console.log(emotion);
@@ -87,24 +89,58 @@ function App() {
   useEffect(() => {
     console.log(`It's ${secondary} around here!`);
   }, [secondary]);
+
+  useEffect(() => {
+    fetch(`https://api.github.com/users/${login}`)
+      .then((response) => response.json())
+      .then(setData);
+  }, [])
+  function GithubUser() {
+    if (data) {
+      return (
+
+        <div>
+          <h1>{data.name}</h1>
+          <p>{data.location}</p>
+          <img alt={data.login} src={data.avatar_url} />
+        </div>
+      )
+    } else {
+
+      return <div>No User Available</div>
+
+    }
+  }
+
+
   return (
-    <>
-      <h1>Hello! Current emotion is {emotion} and {secondary}.</h1>
-      <button onClick={() => setEmotion("happy")}>Happy</button>
-      <button onClick={() => setEmotion("frustrated")}>Frustrate</button>
-      <button onClick={() => setEmotion("enthusiastic")}>Enthuse</button>
-      <br />
-      <button onClick={() => setSecondary("crabby")}>Make Crabby</button>
-      <br />
-      <input
-        type="checkbox"
-        value={checked}
-        onChange={toggle} />
-      { checked ? "Checked" : "Not checked"}
+    <div key="App-Div">
+      <div key="App-Github-Div">
+        <h1 style={{ color: 'teal' }}>GitHub API</h1>
+        <GithubUser />
+
+      </div>
+      <hr />
+      <div key="App-useState-useReducer-Div">
+        <h1 style={{ color: 'teal' }}>Initial Lessons</h1>
+        <h1>Hello! Current emotion is {emotion} and {secondary}.</h1>
+        <button onClick={() => setEmotion("happy")}>Happy</button>
+        <button onClick={() => setEmotion("frustrated")}>Frustrate</button>
+        <button onClick={() => setEmotion("enthusiastic")}>Enthuse</button>
+        <br />
+        <button onClick={() => setSecondary("crabby")}>Make Crabby</button>
+        <br />
+        <input
+          type="checkbox"
+          value={checked}
+          onChange={toggle} />
+        {checked ? "Checked" : "Not checked"}
+      </div>
 
 
 
-    </>
+
+    </div >
   )
 }
 
