@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -15,10 +16,12 @@ const checklist = ["boots", "headlamp", "tent"];
 ReactDOM.render(
   // element, properties, ...children
   // React.createElement("h1", { style: { color: "blue" } }, "Hey, everyone!")
-  <>
-    <App authorized={true} login="davidbrucetn" />
-    {/* <AppTwo /> */}
-  </>,
+  <Router>
+    <>
+      <App authorized={true} login="davidbrucetn" />
+      {/* <AppTwo /> */}
+    </>
+  </Router>,
   document.getElementById('root')
 );
 
