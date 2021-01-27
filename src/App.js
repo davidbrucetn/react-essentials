@@ -72,7 +72,8 @@ function App({ login }) {
   );
 
   const [data, setData] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   console.log(emotion);
 
@@ -91,29 +92,36 @@ function App({ login }) {
   }, [secondary]);
 
   useEffect(() => {
+    if (!login) return;
+    setLoading(true);
     fetch(`https://api.github.com/users/${login}`)
       .then((response) => response.json())
-      .then(setData);
-  }, [])
+      .then(setData)
+      .then(() => setLoading(false))
+      .catch(setError);
+  }, [login])
+
   function GithubUser() {
-    if (data) {
-      return (
+    if (loading) return <h1>Loading...</h1>;
+    if (error)
+      return <pre>{JSON.stringify(error, null, 2)}</pre>;
+    if (!data) return null;
 
-        <div>
-          <h1>{data.name}</h1>
-          <p>{data.location}</p>
-          <img alt={data.login} src={data.avatar_url} />
-        </div>
-      )
-    } else {
+    return (
 
-      return <div>No User Available</div>
-
-    }
+      <div>
+        <h1>{data.name}</h1>
+        <p>{data.location}</p>
+        <img alt={data.login} src={data.avatar_url} />
+      </div>
+    );
   }
 
 
   return (
+    // <div>
+    //   <h1>Hello React Testing Library</h1>
+    // </div>
     <div key="App-Div">
       <div key="App-Github-Div">
         <h1 style={{ color: 'teal' }}>GitHub API</h1>
